@@ -11,6 +11,7 @@ fn main() {
     b();
 
     ownership_main();
+    slice_main();
 }
 
 fn a() {
@@ -106,4 +107,41 @@ fn calc_len2(s1: &mut String) -> usize {
     s1.push_str(", world");
     let length = s1.len();
     length
+}
+
+// ================ Slicing ================
+fn slice_main() {
+    let s: String = String::from("hello world");
+    // skipping the start index since it starts from the start of the string
+    let hello: &str = &s[..5];
+    // world is a string slice that points to the same reference in the heap 
+    // points to the 6th index posn. of the value in the heap
+    // skipping the end index since it includes till the end of the string
+    let world: &str = &s[6..];
+    println!("{hello}\n{world}");
+    // if we wanted to slice the entire string:
+    // let helloworld: &str = &s[..];
+
+    // string literals are actually string slices
+    let s2: &str = "hello world";
+
+    // let word: &str = first_word(&s); would still work as it gets coerced to a string slice
+    let word: &str = first_word(s2);
+    println!("{word}");
+
+    let a = [1,2,3,4,5];
+    let slice = &a[0..2];
+    dbg!(slice);
+}
+
+fn first_word(s: &str) -> &str {
+    let bytes: &[u8] = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
 }
