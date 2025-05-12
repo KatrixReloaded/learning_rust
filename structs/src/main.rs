@@ -190,4 +190,26 @@ fn calling_associated_functions() {
     let sq1 = Rectangle::square(10);
 
     println!("The area of the square is: {}", sq1.area());
+
+    multiple_ways_of_calling_methods_and_fns();
+}
+
+fn multiple_ways_of_calling_methods_and_fns() {
+    let r1 = Rectangle {
+        width: 1,
+        height: 2,
+    };
+
+    let r2 = Rectangle {
+        width: 3,
+        height: 4,
+    };
+
+    // basically, we can call methods like we call associated functions too
+    let area1 = r1.area();
+    let area2 = Rectangle::area(&r1);
+    assert_eq!(area1, area2);
+
+    println!("Can r2 hold r1?: {}", r2.can_hold(&r1));
+    println!("Can r2 hold r1?: {}", Rectangle::can_hold(&r2, &r1));
 }
